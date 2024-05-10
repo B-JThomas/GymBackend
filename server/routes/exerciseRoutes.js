@@ -45,17 +45,24 @@ router.get("/musclegroup/:muscleGroup", async(req, res) => {
 })
 
 //GET some exercises by muscle group and type
-router.get("/filter/:MovementType", async(req, res) => {
+router.get('/filter/:muscleGroup/:movementType', async (req, res) => {
     try {
-        const { MovementType } = req.params;
-        const exercises = await pool.query("SELECT * FROM exercise WHERE MovementType = $1", [MovementType]);
-
-        res.json(exercises.rows);
-
+      const { muscleGroup, movementType } = req.params;
+      const exercises = await pool.query(
+        'SELECT * FROM exercise WHERE MuscleGroup = $1 AND MovementType = $2',
+        [muscleGroup, movementType]
+      );
+  
+      if (exercises.rows.length === 0) {
+        return res.status(404).json({ error: 'No exercises found' });
+      }
+  
+      res.json(exercises.rows);
     } catch (error) {
-        console.error(error.message)
+      console.error(error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
-})
+  });
 
 
 //CREATE exercise
@@ -81,9 +88,54 @@ router.post("/", async(req, res) => {
 });
 
 
-//UPDATE a exercise
+// UPDATE an exercise by ID
+router.put('/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { Name, MuscleGroup, MovementType, Video, Description } = req.body;
+  
+      const existingExercise = await pool.query('SELECT * FROM exercise WHERE ExerciseID = $1', [id]);
+  
+      if (existingExercise.rows.length === 0) {
+        return res.status(404).json({ error: 'Exercise not found' });
+      }
+  
+      const updatedExercise = await pool.query(
+        `UPDATE exercise SET
+           Name = COALESCE($1, Name),
+           MuscleGroup = COALESCE($2, MuscleGroup),
+           MovementType = COALESCE($3, MovementType),
+           Video = COALESCE($4, Video),
+           Description = COALESCE($5, Description)
+         WHERE ExerciseID = $6
+         RETURNING *`,
+        [Name, MuscleGroup, MovementType, Video, Description, id]
+      );
+  
+      res.json(updatedExercise.rows[0]);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
 
-//DELETE a exercise
+//DELETE exercise 
+router.delete('/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const exercise = await pool.query('DELETE FROM exercise WHERE ExerciseID = $1 RETURNING *', [id]);
+  
+      if (exercise.rows.length === 0) {
+        return res.status(404).json({ error: 'Exercise not found' });
+      }
+  
+      res.json({ message: 'Exercise deleted successfully', exercise: exercise.rows[0] });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 
 
 
