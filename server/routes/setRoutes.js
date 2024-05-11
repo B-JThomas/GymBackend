@@ -69,7 +69,7 @@ router.put('/:id', async (req, res) => {
       const updatedSet = await pool.query(
         `UPDATE setStructure SET
            Name = COALESCE($1, Name),
-           Rows = COALESCE($2, Rows)
+           Reps = COALESCE($2, Reps)
          WHERE SetID = $3
          RETURNING *`,
         [Name, Reps, id]
