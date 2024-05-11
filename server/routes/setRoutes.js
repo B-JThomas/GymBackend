@@ -6,7 +6,7 @@ const pool = require("../db");
 //=====SETSTRUCTURE ENDPOINTS=====//
 
 
-//GET all exercises
+//GET all SetStructures
 router.get("/", async(req,res) => {
     try {
         const allSets = await pool.query("SELECT * FROM setStructure")
@@ -18,7 +18,7 @@ router.get("/", async(req,res) => {
 })
 
 
-//GET a exercise by ID
+//GET a SetStructure by ID
 router.get("/:id", async(req, res) => {
     try {
         const { id } = req.params;
@@ -31,7 +31,7 @@ router.get("/:id", async(req, res) => {
     }
 })
 
-//CREATE exercise
+//CREATE SetStructure
 router.post("/", async(req, res) => {
     try {
         //View Body
@@ -54,7 +54,7 @@ router.post("/", async(req, res) => {
 });
 
 
-// UPDATE an exercise by ID
+// UPDATE SetStructure 
 router.put('/:id', async (req, res) => {
     try {
       const { id } = req.params;
@@ -83,7 +83,7 @@ router.put('/:id', async (req, res) => {
   });
   
 
-//DELETE exercise 
+//DELETE SetStructures 
 router.delete('/:id', async (req, res) => {
     try {
       const { id } = req.params;

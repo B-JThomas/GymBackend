@@ -18,6 +18,7 @@ app.use("/api/exercises", require("./routes/exerciseRoutes"));
 app.use("/api/setStructures", require("./routes/setRoutes"));
 
 //Workout Routes
+app.use("/api/workoutStructures", require("./routes/workoutRoutes"));
 
 //Split Routes
 
