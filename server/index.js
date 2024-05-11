@@ -15,6 +15,7 @@ app.use(express.json());
 app.use("/api/exercises", require("./routes/exerciseRoutes"));
 
 //Set Routes
+app.use("/api/setStructures", require("./routes/setRoutes"));
 
 //Workout Routes
 
