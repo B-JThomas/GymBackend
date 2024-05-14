@@ -32,11 +32,11 @@ router.post("/", async (req, res) => {
         console.log(req.body);
 
         //Logic
-        const { Name, Group, ExerciseIDs, SetIDs } = req.body;
+        const { Name, GroupedSets, ExerciseIDs, SetIDs } = req.body;
         const newWorkout = await pool.query(
-            `INSERT INTO workoutStructure (Name, Group, ExerciseIDs, SetIDs)
+            `INSERT INTO workoutStructure (Name, GroupedSets, ExerciseIDs, SetIDs)
              VALUES ($1, $2, $3, $4) RETURNING *`,
-            [Name, Group, ExerciseIDs, SetIDs]
+            [Name, GroupedSets, ExerciseIDs, SetIDs]
         );
         res.json(newWorkout.rows[0]);
     } catch (err) {
@@ -48,7 +48,7 @@ router.post("/", async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
       const { id } = req.params;
-      const { Name, Group, ExerciseIDs, SetIDs } = req.body;
+      const { Name, GroupedSets, ExerciseIDs, SetIDs } = req.body;
   
       const existingWorkout = await pool.query('SELECT * FROM workoutStructure WHERE WorkoutID = $1', [id]);
   
@@ -59,12 +59,12 @@ router.put('/:id', async (req, res) => {
       const updatedWorkout = await pool.query(
         `UPDATE workoutStructure SET
            Name = COALESCE($1, Name),
-           Group = COALESCE($2, Group),
+           GroupedSets = COALESCE($2, GroupedSets),
            ExerciseIDs = COALESCE($3, ExerciseIDs),
            SetIDs = COALESCE($4, SetIDs)
          WHERE WorkoutID = $5
          RETURNING *`,
-        [Name, Group, ExerciseIDs, SetIDs, id]
+        [Name, GroupedSets, ExerciseIDs, SetIDs, id]
       );
   
       res.json(updatedWorkout.rows[0]);

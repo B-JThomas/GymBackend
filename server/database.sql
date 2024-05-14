@@ -1,6 +1,9 @@
 CREATE DATABASE gymapp;
 
 
+--  =========================================
+
+
 -- EXERCISE MODEL
 -- DONE
 CREATE TABLE exercise (
@@ -13,6 +16,7 @@ CREATE TABLE exercise (
 );
 
 -- SETSTRUCTURE MODEL
+-- DONE
 CREATE TABLE setStructure (
   SetID SERIAL PRIMARY KEY,
   Name VARCHAR(255) NOT NULL UNIQUE,
@@ -20,13 +24,42 @@ CREATE TABLE setStructure (
 );
 
 -- WORKOUTSTRUCTURE MODEL
+-- MADE
 CREATE TABLE workoutStructure (
   WorkoutID SERIAL PRIMARY KEY,
   Name VARCHAR(255) NOT NULL UNIQUE,
-  Group INTEGER[] NOT NULL, 
+  GroupedSets INTEGER[] NOT NULL, 
   ExerciseIDs INTEGER[] NOT NULL, 
   SetIDs INTEGER[] NOT NULL
 );
 
 
 -- SPLITSTRUCTURE MODEL
+
+
+
+
+--  =========================================
+
+
+
+-- USERLOGIN MODEL
+CREATE TABLE userLogin (
+  UserID SERIAL PRIMARY KEY,
+  Email VARCHAR(255) NOT NULL UNIQUE,
+  Username VARCHAR(255) NOT NULL UNIQUE,
+  Password VARCHAR(255) NOT NULL
+  -- Roloes ?? 
+);
+
+
+-- USERDATA
+CREATE TABLE userInfo (
+  UserID SERIAL PRIMARY KEY,
+  Name VARCHAR(255) NOT NULL UNIQUE,
+  -- DateOfBirth
+  -- Weight
+  -- Height
+  -- Measurements ?? 
+
+);
