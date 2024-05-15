@@ -21,9 +21,10 @@ app.use("/api/setStructures", require("./routes/setRoutes"));
 app.use("/api/workoutStructures", require("./routes/workoutRoutes"));
 
 //Split Routes
+app.use("/api/splitStructures", require("./routes/splitRoutes"));
 
-
-
+//Program Routes
+//app.use("/api/programStructures", require("./routes/programRoutes"));
 
 
 
