@@ -10,6 +10,8 @@ app.use(express.json());
 
 
 //=====ROUTES=====//
+
+//==WORKOUTS==//
 app.get('/', (req, res) => {
   res.send("System be runnin Gucci Mane")
 })
@@ -29,8 +31,8 @@ app.use("/api/splitStructures", require("./routes/ProgramRoutes/splitRoutes"));
 //Program Routes
 app.use("/api/programStructures", require("./routes/ProgramRoutes/programRoutes"));
 
-
-
+//==USER==//
+app.use("/api/userLogin", require("./routes/UserRoutes/userLoginRoutes"));
 
 
 //======SERVER======//
