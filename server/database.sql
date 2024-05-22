@@ -60,22 +60,45 @@ CREATE TABLE programStructure (
 
 
 -- USERLOGIN MODEL
+-- MADE
 CREATE TABLE userLogin (
   UserID SERIAL PRIMARY KEY,
   Username VARCHAR(255) NOT NULL UNIQUE,
   Email VARCHAR(255) NOT NULL UNIQUE,
-  Password VARCHAR(255) NOT NULL
-  -- Roloes ?? 
+  Password VARCHAR(255) NOT NULL,
+  Role VARCHAR(255) DEFAULT 'user'
 );
 
 
 -- USERDATA
+-- MADE
 CREATE TABLE userInfo (
-  UserID SERIAL PRIMARY KEY,
+  UserID INTEGER NOT NULL,
   Name VARCHAR(255) NOT NULL UNIQUE,
-  -- DateOfBirth
-  -- Weight
-  -- Height
-  -- Measurements ?? 
+  DateOfBirth DATE,
+  Weight DECIMAL(5, 2),
+  Height DECIMAL(4, 2),
+  Gender VARCHAR(50),
+  FOREIGN KEY (UserID) REFERENCES userLogin(UserID)
+);
 
+
+
+--  =========================================
+
+
+
+-- USEREXERCISES
+-- CONTENT EXAMPLE
+CREATE TABLE userExercises (
+    ExerciseID SERIAL PRIMARY KEY,
+    UserID INTEGER NOT NULL,
+    Name VARCHAR(255) NOT NULL,
+    MuscleGroup VARCHAR(255),
+    MovementType VARCHAR(255),
+    Video TEXT,
+    Description TEXT,
+    Visibility BOOLEAN DEFAULT FALSE,  
+    Status VARCHAR(50) DEFAULT 'Pending', 
+    FOREIGN KEY (UserID) REFERENCES userLogin(UserID)
 );
