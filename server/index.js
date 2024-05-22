@@ -10,28 +10,31 @@ app.use(express.json());
 
 
 //=====ROUTES=====//
+app.get('/', (req, res) => {
+  res.send("System be runnin Gucci Mane")
+})
 
 //Exercise Routes
-app.use("/api/exercises", require("./routes/exerciseRoutes"));
+app.use("/api/exercises", require("./routes/ProgramRoutes/exerciseRoutes"));
 
 //Set Routes
-app.use("/api/setStructures", require("./routes/setRoutes"));
+app.use("/api/setStructures", require("./routes/ProgramRoutes/setRoutes"));
 
 //Workout Routes
-app.use("/api/workoutStructures", require("./routes/workoutRoutes"));
+app.use("/api/workoutStructures", require("./routes/ProgramRoutes/workoutRoutes"));
 
 //Split Routes
-app.use("/api/splitStructures", require("./routes/splitRoutes"));
+app.use("/api/splitStructures", require("./routes/ProgramRoutes/splitRoutes"));
 
 //Program Routes
-//app.use("/api/programStructures", require("./routes/programRoutes"));
+app.use("/api/programStructures", require("./routes/ProgramRoutes/programRoutes"));
 
 
 
 
 
 //======SERVER======//
-const PORT = 5001;
+const PORT = process.env.PORT ?? 5001;
 
 app.listen(PORT, () => {
   console.log(`Server has started on port ${PORT}`);
