@@ -1,15 +1,13 @@
 const express = require("express");
 const router = express.Router();
-
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const jwtGenerator = require("../../utils/jwtGenerator");
-
 const pool = require("../../db");
-
+const validInfo = require("../../middleware/validinfo")
 
 //CREATE userLogin
-router.post("/register", async (req, res) => {
+router.post("/register", validInfo, async (req, res) => {
     try {
         const { Username, Email, Password } = req.body;
         //UPDATE
@@ -36,7 +34,7 @@ router.post("/register", async (req, res) => {
 });
 
 //CREATE userLogin
-router.post("/login", async (req, res) => {
+router.post("/login", validInfo, async (req, res) => {
     try {
         const { Username, Password } = req.body;
         const user = await pool.query(
