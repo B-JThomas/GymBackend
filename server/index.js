@@ -32,7 +32,9 @@ app.use("/api/splitStructures", require("./routes/ProgramRoutes/splitRoutes"));
 app.use("/api/programStructures", require("./routes/ProgramRoutes/programRoutes"));
 
 //==USER==//
-app.use("/api/userLogin", require("./routes/UserRoutes/userLoginRoutes"));
+app.use("/api/users", require("./routes/UserRoutes/userLoginRoutes"));
+
+app.use("/auth", require("./routes/UserRoutes/jwtAuth"));
 
 
 //======SERVER======//
