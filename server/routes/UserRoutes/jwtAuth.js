@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const jwtGenerator = require("../../utils/jwtGenerator");
 const pool = require("../../db");
-const validInfo = require("../../middleware/validinfo")
+const validInfo = require("../../middleware/validinfo");
+const { authorization, roleAuthorization } = require("../../middleware/authorization");
 
 //CREATE userLogin
 router.post("/register", validInfo, async (req, res) => {
@@ -24,7 +25,7 @@ router.post("/register", validInfo, async (req, res) => {
             [Username, Email, HashedPassword]
         );
 
-        const token = jwtGenerator(newUser.rows[0].UserID);
+        const token = jwtGenerator(newUser.rows[0].userid, newUser.rows[0].role);
         
         res.json({ token });
     } catch (err) {
@@ -47,7 +48,7 @@ router.post("/login", validInfo, async (req, res) => {
             const validPassword = await bcrypt.compare(Password, user.rows[0].password);
             if (!validPassword) return res.status(400).send('Invalid Password');
 
-            const token = jwtGenerator(user.rows[0].UserID)
+            const token = jwtGenerator(user.rows[0].userid, user.rows[0].role)
             res.json({ token });
 
         } else {
@@ -56,6 +57,30 @@ router.post("/login", validInfo, async (req, res) => {
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
+    }
+});
+
+router.get("/is-verify", authorization, async (req, res) => {
+    try {
+        //req.user has the payload
+        // res.json(req.user)
+
+        res.json(true);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error")
+    }
+});
+
+router.get("/role-verify", authorization, roleAuthorization(['user']), async (req, res) => {
+    try {
+        //req.user has the payload
+        //res.json(req.user)
+
+        res.json(true);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error")
     }
 });
 

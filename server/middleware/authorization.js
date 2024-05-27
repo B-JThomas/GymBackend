@@ -1,16 +1,14 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-module.exports = async (req, res, next) => {
+const authorization = async (req, res, next) => {
     try {
         const jwtToken = req.header("token");
-
         if(!jwtToken) {
             return res.status(403).json("Not Authorized");
         }
 
         const payload = jwt.verify(jwtToken, process.env.JWTSECRET);
-
         req.user = payload.user;
 
     } catch (err) {
@@ -19,3 +17,15 @@ module.exports = async (req, res, next) => {
     }
     next();
 }
+
+const roleAuthorization = (roles) => {
+    return (req, res, next) => {
+        if (req.user && roles.includes(req.user.role)) {
+            next();
+        } else {
+            res.status(401).json("Not authorized for this role");
+        }
+    };
+};
+
+module.exports = { authorization, roleAuthorization };
