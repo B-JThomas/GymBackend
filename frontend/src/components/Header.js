@@ -1,14 +1,21 @@
-import React from 'react'
+import React from 'react';
 
 const Header = () => {
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    window.location.reload();
+  };
+
   return (
     <div>
       <h1>Header: My Header</h1>
-      <a href='http://localhost:3000/login'>Login</a>
-      <a href='http://localhost:3000/Error'>Error</a>
-      <a href='http://localhost:3000/Home'>Home</a>
+      <button onClick={handleLogout}>Logout</button>
+      <a href='/login'>Login</a>
+      <a href='/Error'>Error</a>
+      <a href='/Home'>Home</a>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
