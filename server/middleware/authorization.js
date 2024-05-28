@@ -8,12 +8,14 @@ const authorization = async (req, res, next) => {
             return res.status(403).json("Not Authorized");
         }
 
+        //errpr
         const payload = jwt.verify(jwtToken, process.env.JWTSECRET);
+
         req.user = payload.user;
 
     } catch (err) {
         console.error(err.message);
-        return res.status(403).json("Not Authorized");
+        return res.status(500).json("Server Error");
     }
     next();
 }

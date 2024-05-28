@@ -60,19 +60,19 @@ router.post("/login", validInfo, async (req, res) => {
     }
 });
 
-router.get("/is-verify", authorization, async (req, res) => {
+
+router.get("/verify", authorization, async (req, res) => {
     try {
-        //req.user has the payload
-        // res.json(req.user)
 
         res.json(true);
     } catch (err) {
+
         console.error(err.message);
         res.status(500).send("Server Error")
     }
 });
 
-router.get("/role-verify", authorization, roleAuthorization(['user']), async (req, res) => {
+router.get("/role-verify", authorization, roleAuthorization(['user', 'admin']), async (req, res) => {
     try {
         //req.user has the payload
         //res.json(req.user)
@@ -83,5 +83,6 @@ router.get("/role-verify", authorization, roleAuthorization(['user']), async (re
         res.status(500).send("Server Error")
     }
 });
+
 
 module.exports = router;
